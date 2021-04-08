@@ -1,0 +1,16 @@
+{
+    "name": "mactinite.ToolboxCommons.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:bbeb57bf663ce5e4aa78400cd5a36e16"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
