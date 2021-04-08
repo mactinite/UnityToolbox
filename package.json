@@ -1,0 +1,15 @@
+{
+  "name": "com.mactinite.floatingtext",
+  "version": "0.0.1",
+  "displayName": "Floating Text",
+  "description": "A simple implementation of floating text with built in pooling.",
+  "unity": "2020.3",
+  "dependencies": {
+    "com.unity.textmeshpro": "3.0.0"
+  },
+  "author": {
+    "name": "Hunter MacDonald",
+    "url": "https://github.com/mactinite"
+  },
+  "hideInEditor": false
+}
