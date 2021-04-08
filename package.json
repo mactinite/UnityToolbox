@@ -1,12 +1,9 @@
 {
-  "name": "com.mactinite.floatingtext",
+  "name": "com.mactinite.toolboxcommons",
   "version": "0.0.1",
-  "displayName": "Floating Text",
-  "description": "A simple implementation of floating text with built in pooling.",
+  "displayName": "Unity Toolbox Commons",
+  "description": "A collection of utilities and reusable code. Used in my toolbox of unity packages.",
   "unity": "2020.3",
-  "dependencies": {
-    "com.unity.textmeshpro": "3.0.0"
-  },
   "author": {
     "name": "Hunter MacDonald",
     "url": "https://github.com/mactinite"
