@@ -1,10 +1,12 @@
 {
     "name": "mactinite.ToolboxCommons.Editor",
-    "rootNamespace": "",
+    "rootNamespace": "mactinite.ToolboxCommons.Editor",
     "references": [
         "GUID:bbeb57bf663ce5e4aa78400cd5a36e16"
     ],
-    "includePlatforms": [],
+    "includePlatforms": [
+        "Editor"
+    ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,

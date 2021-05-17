@@ -1,5 +1,5 @@
 {
-    "name": "mactinite.ToolboxCommons",
+    "name": "mactinite.ToolboxCommons.Runtime",
     "rootNamespace": "mactinite.ToolboxCommons",
     "references": [],
     "includePlatforms": [],
