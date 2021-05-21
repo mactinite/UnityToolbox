@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace mactinite.ToolboxCommons
 {
+    [System.Serializable]
     public class GenericDictionary
     {
         private Dictionary<string, object> headers;
@@ -12,6 +13,19 @@ namespace mactinite.ToolboxCommons
         {
             headers = new Dictionary<string, object>();
         }
+
+        public bool TryGetValue<T>(string dataID, out T? data) where T : struct
+        {
+            if (headers.TryGetValue(dataID, out object headerValue))
+            {
+                data = (T)headerValue;
+                return true;
+            }
+
+            data = null;
+            return false;
+        }
+
         public T? GetHeaderValue<T>(string header) where T : struct
         {
             object headerValue = null;
