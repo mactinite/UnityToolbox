@@ -65,8 +65,8 @@ namespace mactinite.ToolboxCommons
 
         private void OnDestroy()
         {
-            if(m_Instance == this)
-                m_ShuttingDown = true;
+            //if(m_Instance == this)
+            //    m_ShuttingDown = true;
         }
     }
 
