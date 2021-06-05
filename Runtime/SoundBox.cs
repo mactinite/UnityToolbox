@@ -26,6 +26,8 @@ namespace mactinite.ToolboxCommons
 
         public void PlayRandomOneShot()
         {
+            if (sounds.Count == 0) return;
+
             AudioClip clip = sounds[Random.Range(0, sounds.Count)];
 
             for (int i = 0; i < audioSources.Count; i++)
