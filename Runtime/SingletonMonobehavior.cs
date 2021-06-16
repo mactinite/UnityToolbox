@@ -66,7 +66,7 @@ namespace mactinite.ToolboxCommons
         {
             if (m_Instance == null)
             {
-                Debug.log("Instance was shutdown, but a new instance was created, rebooting instance");
+                Debug.LogWarning("Instance was shutdown, but a new instance was created, rebooting instance");
                 m_ShuttingDown = false;
             }
         }
