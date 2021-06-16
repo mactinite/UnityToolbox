@@ -64,7 +64,7 @@ namespace mactinite.ToolboxCommons
 
         private void Awake()
         {
-            if (m_Instance == null)
+            if (m_Instance == null && m_ShuttingDown)
             {
                 Debug.LogWarning("Instance was shutdown, but a new instance was created, rebooting instance");
                 m_ShuttingDown = false;
