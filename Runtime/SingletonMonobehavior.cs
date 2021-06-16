@@ -62,11 +62,23 @@ namespace mactinite.ToolboxCommons
                 m_ShuttingDown = true;
         }
 
+        private void Awake()
+        {
+            if (m_Instance == null)
+            {
+                Debug.log("Instance was shutdown, but a new instance was created, rebooting instance");
+                m_ShuttingDown = false;
+            }
+        }
+
 
         private void OnDestroy()
         {
             if (m_Instance == this)
+            {
                 m_ShuttingDown = true;
+                m_Instance = null;
+            }
         }
     }
 
