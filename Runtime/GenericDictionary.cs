@@ -14,15 +14,14 @@ namespace mactinite.ToolboxCommons
             headers = new Dictionary<string, object>();
         }
 
-        public bool TryGetValue<T>(string dataID, out T? data) where T : struct
+        public bool TryGetValue<T>(string dataID, out T data) where T : struct
         {
+            data = default(T);
             if (headers.TryGetValue(dataID, out object headerValue))
             {
                 data = (T)headerValue;
                 return true;
             }
-
-            data = null;
             return false;
         }
 
