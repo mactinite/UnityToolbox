@@ -1,14 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Sirenix.OdinInspector;
 namespace mactinite.ToolboxCommons
 {
     public class SoundBox : MonoBehaviour
     {
         public List<AudioClip> sounds = new List<AudioClip>();
         private List<AudioSource> audioSources = new List<AudioSource>();
-        [MinMaxSlider(0, 2, true)]
         public Vector2 pitchRange = Vector2.right;
 
         public bool playOnAwake = false;
