@@ -1,6 +1,6 @@
 {
   "name": "com.mactinite.toolboxcommons",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "displayName": "Unity Toolbox Commons",
   "description": "A collection of utilities and reusable code. Used in my toolbox of unity packages.",
   "unity": "2020.3",
