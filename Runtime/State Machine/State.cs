@@ -17,11 +17,7 @@ namespace mactinite.ToolboxCommons.StateMachine {
         public virtual IEnumerator Start () {
             yield break;
         }
-
-        public virtual IEnumerator Tick () {
-            yield break;
-        }
-
+        
         public virtual IEnumerator End () {
             yield break;
         }

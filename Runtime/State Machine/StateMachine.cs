@@ -26,12 +26,7 @@ namespace mactinite.ToolboxCommons.StateMachine {
                     $"Did you forget to register the state or use the wrong identifier?");
             }
         }
-
-        public void Update () {
-            if (State != null)
-                StartCoroutine (State.Tick ());
-        }
-
+        
         private void OnDestroy () {
             this.StopAllCoroutines ();
         }
