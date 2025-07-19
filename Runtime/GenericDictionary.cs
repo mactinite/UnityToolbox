@@ -49,7 +49,7 @@ namespace mactinite.ToolboxCommons
 
         public void SetHeaderValue(string header, object value)
         {
-            if (headers.ContainsValue(header))
+            if (headers.ContainsKey(header))
             {
                 headers[header] = value;
             }
