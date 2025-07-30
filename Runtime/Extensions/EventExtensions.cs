@@ -1,10 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Events;
 
-namespace mactinite.ToolboxCommons
+namespace mactinite.ToolboxCommons.Extensions
 {
+    public class EventExtensions
+    {
+
+    }
+    
     [System.Serializable]
     public class IntUnityEvent : UnityEvent<int> { }
 
