@@ -6,7 +6,8 @@ namespace mactinite.ToolboxCommons
     /// Inherit from this base class to create a singleton.
     /// e.g. public class MyClassName : Singleton<MyClassName> {}
     /// </summary>
-    public class SingletonMonobehavior<T> : MonoBehaviour where T : MonoBehaviour
+    public class SingletonMonobehavior<T> : MonoBehaviour
+        where T : MonoBehaviour
     {
         // Check to see if we're about to be destroyed.
         private static bool m_ShuttingDown = false;
@@ -22,8 +23,11 @@ namespace mactinite.ToolboxCommons
             {
                 if (m_ShuttingDown)
                 {
-                    Debug.LogWarning("[Singleton] Instance '" + typeof(T) +
-                        "' already destroyed. Returning null.");
+                    Debug.LogWarning(
+                        "[Singleton] Instance '"
+                            + typeof(T)
+                            + "' already destroyed. Returning null."
+                    );
                     return null;
                 }
 
@@ -32,7 +36,7 @@ namespace mactinite.ToolboxCommons
                     if (m_Instance == null)
                     {
                         // Search for existing instance.
-                        m_Instance = (T)FindObjectOfType(typeof(T));
+                        m_Instance = (T)FindFirstObjectByType(typeof(T));
 
                         // Create new instance if one doesn't already exist.
                         if (m_Instance == null)
@@ -41,7 +45,6 @@ namespace mactinite.ToolboxCommons
                             var singletonObject = new GameObject();
                             m_Instance = singletonObject.AddComponent<T>();
                             singletonObject.name = typeof(T).ToString() + " (Singleton)";
-
                         }
                     }
 
@@ -55,10 +58,9 @@ namespace mactinite.ToolboxCommons
             return m_Instance != null;
         }
 
-
         private void OnApplicationQuit()
         {
-            if(m_Instance == this)
+            if (m_Instance == this)
                 m_ShuttingDown = true;
         }
 
@@ -66,11 +68,12 @@ namespace mactinite.ToolboxCommons
         {
             if (m_Instance == null && m_ShuttingDown)
             {
-                Debug.LogWarning("Instance was shutdown, but a new instance was created, rebooting instance");
+                Debug.LogWarning(
+                    "Instance was shutdown, but a new instance was created, rebooting instance"
+                );
                 m_ShuttingDown = false;
             }
         }
-
 
         private void OnDestroy()
         {
@@ -81,5 +84,4 @@ namespace mactinite.ToolboxCommons
             }
         }
     }
-
 }
