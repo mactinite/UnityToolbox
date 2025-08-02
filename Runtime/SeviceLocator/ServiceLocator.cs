@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 
 namespace mactinite.ToolboxCommons.ServiceLocator
 {
+    [DefaultExecutionOrder(-200)]
     public class ServiceLocator : MonoBehaviour
     {
         static ServiceLocator global;
