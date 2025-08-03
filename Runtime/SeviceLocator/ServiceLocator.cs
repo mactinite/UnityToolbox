@@ -20,6 +20,8 @@ namespace mactinite.ToolboxCommons.ServiceLocator
         const string k_globalServiceLocatorName = "ServiceLocator [Global]";
         const string k_sceneServiceLocatorName = "ServiceLocator [Scene]";
 
+        public ServiceManager Services => services;
+
         internal void ConfigureAsGlobal(bool dontDestroyOnLoad)
         {
             if (global == this)

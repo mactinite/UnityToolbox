@@ -70,5 +70,11 @@ namespace mactinite.ToolboxCommons.ServiceLocator
 
             return this;
         }
+
+        public ServiceManager Clear()
+        {
+            services.Clear();
+            return this;
+        }
     }
 }
