@@ -1,7 +1,7 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-namespace mactinite.ToolboxCommons.Editor
+namespace toolbox.Editor
 {
     [CustomPropertyDrawer(typeof(SceneAttribute))]
     public class SceneDrawer : PropertyDrawer

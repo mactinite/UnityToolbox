@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace mactinite.ToolboxCommons.ServiceLocator
+namespace toolbox.ServiceLocator
 {
     public class ServiceManager
     {

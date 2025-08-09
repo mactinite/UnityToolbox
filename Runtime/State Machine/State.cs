@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace mactinite.ToolboxCommons.StateMachine {
+namespace toolbox.StateMachine {
     public abstract class State<T> where T : StateMachine<T> {
         private T stateMachine;
 

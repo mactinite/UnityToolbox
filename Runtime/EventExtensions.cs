@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace mactinite.ToolboxCommons
+namespace toolbox
 {
     [System.Serializable]
     public class IntUnityEvent : UnityEvent<int> { }

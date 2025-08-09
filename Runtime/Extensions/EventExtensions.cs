@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
 
-namespace mactinite.ToolboxCommons.Extensions
+namespace toolbox.Extensions
 {
     public class EventExtensions
     {

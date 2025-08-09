@@ -1,11 +1,11 @@
 {
-  "name": "com.mactinite.toolboxcommons",
-  "version": "0.0.2",
+  "name": "com.toolbox",
+  "version": "1.0.0",
   "displayName": "Unity Toolbox Commons",
   "description": "A collection of utilities and reusable code. Used in my toolbox of unity packages.",
-  "unity": "2020.3",
+  "unity": "6000.1",
   "author": {
-    "name": "Hunter MacDonald",
+    "name": "Mactinite",
     "url": "https://github.com/mactinite"
   },
   "hideInEditor": false

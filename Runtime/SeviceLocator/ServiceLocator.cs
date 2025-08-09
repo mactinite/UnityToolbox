@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using mactinite.ToolboxCommons.Extensions;
+using toolbox.Extensions;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace mactinite.ToolboxCommons.ServiceLocator
+namespace toolbox.ServiceLocator
 {
     [DefaultExecutionOrder(-200)]
     public class ServiceLocator : MonoBehaviour

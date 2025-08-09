@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace mactinite.ToolboxCommons.ServiceLocator
+namespace toolbox.ServiceLocator
 {
     [AddComponentMenu("ServiceLocator/ServiceLocator Scene")]
     public class ServiceLocatorScene : Bootstrapper

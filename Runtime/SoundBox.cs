@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-namespace mactinite.ToolboxCommons
+namespace toolbox
 {
     public class SoundBox : MonoBehaviour
     {

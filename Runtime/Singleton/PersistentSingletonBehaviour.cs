@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace mactinite.ToolboxCommons.Singleton
+namespace toolbox.Singleton
 {
     /// <summary>
     /// Persistent singleton that destroys later instances of the same type.

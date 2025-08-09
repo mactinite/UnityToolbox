@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace mactinite.ToolboxCommons.Extensions
+namespace toolbox.Extensions
 {
     public static class RigidbodyExtensions
     {

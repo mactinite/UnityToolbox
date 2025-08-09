@@ -1,8 +1,8 @@
 ﻿using System;
-using mactinite.ToolboxCommons.Singleton;
+using toolbox.Singleton;
 using UnityEngine;
 
-namespace mactinite.ToolboxCommons.ServiceLocator
+namespace toolbox.ServiceLocator
 {
     [DefaultExecutionOrder(-1000)]
     public class ServiceBundleLoader : PersistentSingletonBehaviour<ServiceBundleLoader>

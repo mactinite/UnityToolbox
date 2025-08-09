@@ -1,4 +1,4 @@
-﻿namespace mactinite.ToolboxCommons.Extensions
+﻿namespace toolbox.Extensions
 {
     public static class StringExtensions
     {

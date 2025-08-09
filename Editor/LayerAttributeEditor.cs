@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-namespace mactinite.ToolboxCommons.Editor
+namespace toolbox.Editor
 {
     [CustomPropertyDrawer(typeof(LayerAttribute))]
     class LayerAttributeEditor : PropertyDrawer

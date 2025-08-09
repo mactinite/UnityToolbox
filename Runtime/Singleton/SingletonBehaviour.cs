@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace mactinite.ToolboxCommons.Singleton
+namespace toolbox.Singleton
 {
     /// <summary>
     /// Inherit from this base class to create a singleton.

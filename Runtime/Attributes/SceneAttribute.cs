@@ -1,7 +1,7 @@
 ﻿
 using UnityEngine;
 
-namespace mactinite.ToolboxCommons
+namespace toolbox
 {
     public class SceneAttribute : PropertyAttribute
     {

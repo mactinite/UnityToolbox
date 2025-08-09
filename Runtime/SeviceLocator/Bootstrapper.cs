@@ -1,7 +1,7 @@
-﻿using mactinite.ToolboxCommons.Extensions;
+﻿using toolbox.Extensions;
 using UnityEngine;
 
-namespace mactinite.ToolboxCommons.ServiceLocator
+namespace toolbox.ServiceLocator
 {
     [DisallowMultipleComponent]
     [RequireComponent(typeof(ServiceLocator))]

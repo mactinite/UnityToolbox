@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace mactinite.ToolboxCommons.Extensions
+namespace toolbox.Extensions
 {
     public static class LayerMaskExtensions
     {

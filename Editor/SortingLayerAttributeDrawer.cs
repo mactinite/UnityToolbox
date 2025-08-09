@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEngine;
 using System.Linq;
 
-namespace mactinite.ToolboxCommons.Editor
+namespace toolbox.Editor
 {
     [CustomPropertyDrawer(typeof(SortingLayerAttribute))]
     class SortingLayerAttributeDrawer : PropertyDrawer
