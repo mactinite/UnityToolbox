@@ -1,7 +1,6 @@
-﻿
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace toolbox
+namespace toolbox.Atttributes
 {
     public class SceneAttribute : PropertyAttribute
     {

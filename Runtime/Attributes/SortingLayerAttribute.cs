@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace toolbox
+namespace toolbox.Atttributes
 {
     public class SortingLayerAttribute : PropertyAttribute
     {
