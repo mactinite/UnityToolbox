@@ -4,7 +4,6 @@ namespace toolbox.Singleton
 {
     /// <summary>
     /// Inherit from this base class to create a singleton.
-    /// e.g. public class MyClassName : Singleton<MyClassName> {}
     /// </summary>
     public class SingletonBehaviour<T> : MonoBehaviour
         where T : Component
