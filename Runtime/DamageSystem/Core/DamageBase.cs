@@ -1,8 +1,13 @@
+using System;
+using Sirenix.OdinInspector;
+using UnityEngine;
+
 namespace toolbox.DamageSystem
 {
+    [Serializable]
     public class DamageBase
     {
-        protected float amount;
+        [SerializeField] protected float amount;
         protected float newHealth;
 
         public float Amount
