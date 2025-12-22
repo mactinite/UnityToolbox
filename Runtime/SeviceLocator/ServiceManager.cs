@@ -70,6 +70,14 @@ namespace toolbox.ServiceLocator
 
             return this;
         }
+        
+        public ServiceManager Unregister<T>()
+        {
+            Type type = typeof(T);
+            
+            services.Remove(type);
+            return this;
+        }
 
         public ServiceManager Clear()
         {

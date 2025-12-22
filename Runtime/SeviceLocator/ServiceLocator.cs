@@ -151,6 +151,17 @@ namespace toolbox.ServiceLocator
             services.Register(type, service);
             return this;
         }
+        
+        /// <summary>
+        /// Unregisters a service of a specific type from the ServiceLocator.
+        /// </summary>
+        /// <typeparam name="T">Class type of the service to be unregistered.</typeparam>
+        /// <returns>The ServiceLocator instance after unregistering the service.</returns>
+        public ServiceLocator Unregister<T>()
+        {
+            services.Unregister<T>();
+            return this;
+        }
 
         /// <summary>
         /// Gets a service of a specific type. If no service of the required type is found, an error is thrown.
