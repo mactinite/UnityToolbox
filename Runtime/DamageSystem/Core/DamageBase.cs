@@ -1,7 +1,5 @@
 using System;
-using Sirenix.OdinInspector;
 using UnityEngine;
-
 namespace toolbox.DamageSystem
 {
     [Serializable]
