@@ -1,3 +1,5 @@
+using System;
+using UnityEngine;
 
 namespace toolbox.DamageSystem
 {
@@ -15,20 +17,19 @@ namespace toolbox.DamageSystem
         public Action<Vector2> OnDestroyed;
         public Func<T, T> OnProcessDamage;
 
-        [HideInInspector]
-        public bool wasDamagedThisFrame = false;
+        [HideInInspector] public bool wasDamagedThisFrame = false;
 
 
         private float iTimer = 0;
         public float iTime = 0.08f;
         public bool invincible = false;
+
         public virtual void Update()
         {
             if (iTimer >= 0)
             {
                 iTimer -= Time.deltaTime;
             }
-
         }
 
         private void LateUpdate()
@@ -76,6 +77,7 @@ namespace toolbox.DamageSystem
                 // same as destroyed event, but for damage. Extensions can handle things like spawning effects.
                 OnDamage?.Invoke(at, dmg);
             }
+
             iTimer = iTime;
             wasDamagedThisFrame = true;
         }
