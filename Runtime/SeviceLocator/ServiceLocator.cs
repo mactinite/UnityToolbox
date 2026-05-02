@@ -257,7 +257,7 @@ namespace toolbox.ServiceLocator
             {
                 global = null;
             }
-            else if (sceneContainers.ContainsValue(this))
+            else if (sceneContainers != null && sceneContainers.ContainsValue(this))
             {
                 sceneContainers.Remove(gameObject.scene);
             }
