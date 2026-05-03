@@ -14,6 +14,7 @@ namespace toolbox.ServiceLocator
         static ServiceLocator global;
         static Dictionary<Scene, ServiceLocator> sceneContainers;
         static List<GameObject> tmpSceneGameObjects;
+        static bool isQuitting;
 
         readonly ServiceManager services = new ServiceManager();
 
@@ -71,6 +72,13 @@ namespace toolbox.ServiceLocator
             {
                 if (global != null)
                     return global;
+
+                // Don't resurrect during teardown. Lazy-spawning a replacement here
+                // (typically from an OnDestroy that touches Global) leaves a fresh
+                // GameObject sitting in the scene at close, which Unity reports as
+                // "Some objects were not cleaned up when closing the scene."
+                if (isQuitting)
+                    return null;
 
                 if (FindFirstObjectByType<ServiceLocatorGlobal>() is { } found)
                 {
@@ -270,7 +278,27 @@ namespace toolbox.ServiceLocator
             global = null;
             sceneContainers = new Dictionary<Scene, ServiceLocator>();
             tmpSceneGameObjects = new List<GameObject>();
+            isQuitting = false;
+
+            Application.quitting -= OnApplicationQuitting;
+            Application.quitting += OnApplicationQuitting;
+#if UNITY_EDITOR
+            EditorApplication.playModeStateChanged -= OnPlayModeStateChanged;
+            EditorApplication.playModeStateChanged += OnPlayModeStateChanged;
+#endif
         }
+
+        static void OnApplicationQuitting() => isQuitting = true;
+
+#if UNITY_EDITOR
+        static void OnPlayModeStateChanged(PlayModeStateChange state)
+        {
+            // ExitingPlayMode fires before scene teardown — flip the flag so any
+            // OnDestroy that calls Global doesn't lazy-spawn a replacement.
+            if (state == PlayModeStateChange.ExitingPlayMode)
+                isQuitting = true;
+        }
+#endif
 
 #if UNITY_EDITOR
         [MenuItem("GameObject/ServiceLocator/Add Global")]
