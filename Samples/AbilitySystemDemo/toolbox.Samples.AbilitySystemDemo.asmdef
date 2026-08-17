@@ -1,0 +1,17 @@
+{
+    "name": "toolbox.Samples.AbilitySystemDemo",
+    "rootNamespace": "toolbox.Samples.AbilitySystemDemo",
+    "references": [
+        "toolbox.Runtime",
+        "Unity.InputSystem"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

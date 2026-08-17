@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2ab2c2390b3de1448509fd745d23b00, type: 3}
+  m_Name: GE_JumpCooldown
+  m_EditorClassIdentifier: toolbox.Runtime::toolbox.AbilitySystem.GameplayEffectDefinition
+  durationPolicy: 1
+  duration:
+    baseValue: 1
+    scaleWithLevel: 0
+    levelCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  isPeriodic: 0
+  period:
+    baseValue: 1
+    scaleWithLevel: 0
+    levelCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  executeOnApplication: 0
+  modifiers: []
+  grantedTags:
+    tags:
+    - {fileID: 11400000, guid: 90d8ea5df80648b42a9e8efe4cb47cde, type: 2}
+  applicationRequiredTags:
+    tags: []
+  applicationBlockedTags:
+    tags: []
+  ongoingRequiredTags:
+    tags: []
+  removeEffectsWithTags:
+    tags: []
+  stacking: 0
+  maxStacks: 1
+  refreshDurationOnStack: 0
+  resetPeriodOnStack: 0

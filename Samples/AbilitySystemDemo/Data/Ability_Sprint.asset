@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8641bf376d14848498ff83397b541c7f, type: 3}
+  m_Name: Ability_Sprint
+  m_EditorClassIdentifier: toolbox.Samples.AbilitySystemDemo::toolbox.Samples.AbilitySystemDemo.SprintAbilityDefinition
+  abilityTags:
+    tags: []
+  cancelAbilitiesWithTags:
+    tags: []
+  blockAbilitiesWithTags:
+    tags: []
+  activationRequiredTags:
+    tags: []
+  activationBlockedTags:
+    tags: []
+  activationOwnedTags:
+    tags: []
+  cost: {fileID: 0}
+  cooldown: {fileID: 0}
+  sprintingEffect: {fileID: 11400000, guid: 489485f585df91f4892de5dd8237c6df, type: 2}
+  drainEffect: {fileID: 11400000, guid: 7475bcfbf1bf72a4b95f5fb35cb54bed, type: 2}
+  staminaAttribute: {fileID: 11400000, guid: acc6e729b9a67f94894965c5f82e2bd8, type: 2}
+  minimumStaminaToStart: 10
