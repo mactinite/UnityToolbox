@@ -1,25 +1,9 @@
-﻿using UnityEngine;
-using UnityEngine.Events;
-
 namespace toolbox.Extensions
 {
+    // The serializable UnityEvent<T> types (IntUnityEvent, FloatUnityEvent, ...) live in the root
+    // `toolbox` namespace (Runtime/EventExtensions.cs). They used to be duplicated here, which made
+    // any file importing both `toolbox` and `toolbox.Extensions` fail with CS0104 (ambiguous type).
     public class EventExtensions
     {
-
     }
-    
-    [System.Serializable]
-    public class IntUnityEvent : UnityEvent<int> { }
-
-    [System.Serializable]
-    public class FloatUnityEvent : UnityEvent<float> { }
-
-    [System.Serializable]
-    public class StringUnityEvent : UnityEvent<string> { }
-
-    [System.Serializable]
-    public class Vector2UnityEvent : UnityEvent<Vector2> { }
-
-    [System.Serializable]
-    public class Vector3UnityEvent : UnityEvent<Vector3> { }
 }
