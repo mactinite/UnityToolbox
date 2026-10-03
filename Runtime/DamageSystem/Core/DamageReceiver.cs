@@ -16,6 +16,8 @@ namespace toolbox.DamageSystem
         public Action<float> OnHeal;
         public Action<Vector2> OnDestroyed;
         public Func<T, T> OnProcessDamage;
+        /// <summary>A hit whose processed amount was zero or less (e.g. fully absorbed by a shield).</summary>
+        public Action<Vector2, T> OnDamageAbsorbed;
 
         [HideInInspector] public bool wasDamagedThisFrame = false;
 
@@ -58,7 +60,15 @@ namespace toolbox.DamageSystem
                 }
             }
 
-            if (dmg.Amount <= 0) return;
+            if (dmg.Amount <= 0)
+            {
+                // Fully absorbed by a processor (shield, armour, ...). Health is untouched, but the hit
+                // still happened: start i-frames so continuous sources can't drain the absorber every
+                // frame, and let extensions react (shield numbers, impact effects).
+                iTimer = iTime;
+                OnDamageAbsorbed?.Invoke(at, dmg);
+                return;
+            }
 
             // apply damage and invoke events
             if (health - dmg.Amount <= 0 && !destroyed)
