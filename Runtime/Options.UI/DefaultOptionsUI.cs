@@ -6,8 +6,8 @@ namespace toolbox.Options.UI
 {
     /// <summary>
     /// Plain uGUI versions of every menu element, built at runtime so a game needs no prefabs to start. Theme prefabs
-    /// replace them piecemeal. Colours and sizes are static so a game can retune the built-ins in one place before
-    /// the menu is built.
+    /// replace them piecemeal. Colours, sizes, the font and the button sprite are static so a game can retune the
+    /// built-ins in one place before the menu is built (see <see cref="ScaleMetrics"/> for small reference canvases).
     /// </summary>
     public static class DefaultOptionsUI
     {
@@ -24,6 +24,7 @@ namespace toolbox.Options.UI
             public static Color Overlay = new Color(0f, 0f, 0f, 0.6f);
         }
 
+        /// <summary>Sizes in canvas units, tuned for a 1280x720 reference canvas.</summary>
         public static class Metrics
         {
             public static float RowHeight = 40f;
@@ -33,9 +34,24 @@ namespace toolbox.Options.UI
             public static float ControlWidth = 260f;
             public static float ButtonHeight = 34f;
             public static float Spacing = 6f;
+            public static float ToggleSize = 28f;
+            public static float SliderHeight = 24f;
+            public static float HandleWidth = 14f;
+            public static float ArrowWidth = 30f;
+            public static float ValueWidth = 58f;
+            public static float ResetWidth = 58f;
+            public static float TabWidth = 150f;
+            public static float FooterButtonWidth = 120f;
+            public static float HeaderHeight = 30f;
+            public static float TitleHeight = 40f;
+            public static float DescriptionHeight = 48f;
+            public static float RowSpacing = 4f;
+            public static RectOffset RowPadding = new RectOffset(12, 12, 4, 4);
+            public static RectOffset ContentPadding = new RectOffset(8, 8, 8, 8);
+            public static RectOffset MenuPadding = new RectOffset(16, 16, 16, 16);
             /// <summary>Size of the built-in menu panel; a zero or negative component stretches the panel to its parent instead.</summary>
             public static Vector2 MenuSize = new Vector2(820f, 540f);
-            public static RectOffset MenuPadding = new RectOffset(16, 16, 16, 16);
+            public static Vector2 PromptSize = new Vector2(460f, 190f);
         }
 
         /// <summary>Font for every built-in text; null uses the TextMeshPro default.</summary>
@@ -43,6 +59,43 @@ namespace toolbox.Options.UI
 
         /// <summary>Sliced sprite for built-in buttons; null draws flat rectangles.</summary>
         public static Sprite ButtonSprite;
+
+        /// <summary>
+        /// Multiplies every size metric by <paramref name="sizeFactor"/> and the font sizes by <paramref name="fontFactor"/>,
+        /// for canvases with a smaller reference resolution (a 640x360 pixel-art canvas wants about 0.5 and 0.55).
+        /// Fixed-size fields (<see cref="Metrics.MenuSize"/>, paddings) scale too; set the ones you want afterwards.
+        /// </summary>
+        public static void ScaleMetrics(float sizeFactor, float fontFactor)
+        {
+            Metrics.RowHeight *= sizeFactor;
+            Metrics.ControlWidth *= sizeFactor;
+            Metrics.ButtonHeight *= sizeFactor;
+            Metrics.Spacing *= sizeFactor;
+            Metrics.ToggleSize *= sizeFactor;
+            Metrics.SliderHeight *= sizeFactor;
+            Metrics.HandleWidth *= sizeFactor;
+            Metrics.ArrowWidth *= sizeFactor;
+            Metrics.ValueWidth *= sizeFactor;
+            Metrics.ResetWidth *= sizeFactor;
+            Metrics.TabWidth *= sizeFactor;
+            Metrics.FooterButtonWidth *= sizeFactor;
+            Metrics.HeaderHeight *= sizeFactor;
+            Metrics.TitleHeight *= sizeFactor;
+            Metrics.DescriptionHeight *= sizeFactor;
+            Metrics.RowSpacing *= sizeFactor;
+            Metrics.RowPadding = Scale(Metrics.RowPadding, sizeFactor);
+            Metrics.ContentPadding = Scale(Metrics.ContentPadding, sizeFactor);
+            Metrics.MenuPadding = Scale(Metrics.MenuPadding, sizeFactor);
+            Metrics.MenuSize *= sizeFactor;
+            Metrics.PromptSize *= sizeFactor;
+            Metrics.FontSize *= fontFactor;
+            Metrics.SmallFontSize *= fontFactor;
+            Metrics.TitleFontSize *= fontFactor;
+        }
+
+        static RectOffset Scale(RectOffset offset, float factor) => new RectOffset(
+            Mathf.RoundToInt(offset.left * factor), Mathf.RoundToInt(offset.right * factor),
+            Mathf.RoundToInt(offset.top * factor), Mathf.RoundToInt(offset.bottom * factor));
 
         // ---- primitives -------------------------------------------------------------------------------------------
 
@@ -94,7 +147,7 @@ namespace toolbox.Options.UI
             button.colors = TintColors();
             Size(image.gameObject, width, height > 0f ? height : Metrics.ButtonHeight);
             var text = Text(image.transform, "Label", label, Metrics.SmallFontSize, TextAlignmentOptions.Center);
-            Stretch(text.rectTransform, 4f);
+            Stretch(text.rectTransform, 2f);
             return button;
         }
 
@@ -165,7 +218,7 @@ namespace toolbox.Options.UI
             var rowImage = Panel(parent, kind + " Row", Palette.Row);
             var go = rowImage.gameObject;
             Size(go, height: Metrics.RowHeight);
-            HStack(go, Metrics.Spacing, new RectOffset(12, 12, 4, 4));
+            HStack(go, Metrics.Spacing, Metrics.RowPadding);
 
             var label = Text(go.transform, "Label", "", Metrics.FontSize, TextAlignmentOptions.MidlineLeft);
             Size(label.gameObject, flexibleWidth: 1f);
@@ -186,9 +239,9 @@ namespace toolbox.Options.UI
                 }
                 case RowKind.Slider:
                 {
-                    var slider = CreateSlider(go.transform, Metrics.ControlWidth - 64f);
+                    var slider = CreateSlider(go.transform, Metrics.ControlWidth - Metrics.ValueWidth - Metrics.Spacing);
                     value = Text(go.transform, "Value", "", Metrics.SmallFontSize, TextAlignmentOptions.MidlineRight, Palette.TextDim);
-                    Size(value.gameObject, width: 58f);
+                    Size(value.gameObject, width: Metrics.ValueWidth);
                     primary = slider;
                     var sliderRow = go.AddComponent<SliderRow>();
                     sliderRow.Configure(slider);
@@ -214,22 +267,25 @@ namespace toolbox.Options.UI
                 }
             }
 
-            var reset = Button(go.transform, "Reset", "Reset", 58f, Metrics.RowHeight - 12f);
-            reset.GetComponentInChildren<TMP_Text>().fontSize = Metrics.SmallFontSize - 3f;
+            var reset = Button(go.transform, "Reset", "Reset", Metrics.ResetWidth, ControlHeight());
+            reset.GetComponentInChildren<TMP_Text>().fontSize = Metrics.SmallFontSize * 0.8f;
             row.ConfigureBase(label, value, reset, primary, rowImage);
             return go;
         }
+
+        static float ControlHeight() => Mathf.Max(8f, Metrics.RowHeight - Metrics.RowPadding.vertical - 2f);
 
         public static Toggle CreateToggle(Transform parent)
         {
             var background = Panel(parent, "Toggle", Palette.Control);
             background.raycastTarget = true;
-            Size(background.gameObject, 28f, 28f);
+            float size = Mathf.Min(Metrics.ToggleSize, ControlHeight());
+            Size(background.gameObject, size, size);
             var toggle = background.gameObject.AddComponent<Toggle>();
             toggle.targetGraphic = background;
             toggle.colors = TintColors();
             var checkmark = Panel(background.transform, "Checkmark", Palette.Accent);
-            Stretch(checkmark.rectTransform, 6f);
+            Stretch(checkmark.rectTransform, Mathf.Max(1f, size * 0.2f));
             toggle.graphic = checkmark;
             toggle.isOn = false;
             return toggle;
@@ -238,8 +294,9 @@ namespace toolbox.Options.UI
         public static Slider CreateSlider(Transform parent, float width)
         {
             var root = Rect(parent, "Slider");
-            Size(root.gameObject, width, 24f);
+            Size(root.gameObject, width, Mathf.Min(Metrics.SliderHeight, ControlHeight()));
             var slider = root.gameObject.AddComponent<Slider>();
+            float halfHandle = Metrics.HandleWidth * 0.5f;
 
             var background = Panel(root, "Background", Palette.Control);
             background.rectTransform.anchorMin = new Vector2(0f, 0.35f);
@@ -250,18 +307,18 @@ namespace toolbox.Options.UI
             var fillArea = Rect(root, "Fill Area");
             fillArea.anchorMin = new Vector2(0f, 0.35f);
             fillArea.anchorMax = new Vector2(1f, 0.65f);
-            fillArea.offsetMin = new Vector2(7f, 0f);
-            fillArea.offsetMax = new Vector2(-7f, 0f);
+            fillArea.offsetMin = new Vector2(halfHandle, 0f);
+            fillArea.offsetMax = new Vector2(-halfHandle, 0f);
             var fill = Panel(fillArea, "Fill", Palette.Accent);
             Stretch(fill.rectTransform);
 
             var handleArea = Rect(root, "Handle Slide Area");
             Stretch(handleArea);
-            handleArea.offsetMin = new Vector2(7f, 0f);
-            handleArea.offsetMax = new Vector2(-7f, 0f);
+            handleArea.offsetMin = new Vector2(halfHandle, 0f);
+            handleArea.offsetMax = new Vector2(-halfHandle, 0f);
             var handle = Panel(handleArea, "Handle", Color.white);
             handle.raycastTarget = true;
-            handle.rectTransform.sizeDelta = new Vector2(14f, 0f);
+            handle.rectTransform.sizeDelta = new Vector2(Metrics.HandleWidth, 0f);
 
             slider.fillRect = fill.rectTransform;
             slider.handleRect = handle.rectTransform;
@@ -280,17 +337,19 @@ namespace toolbox.Options.UI
         {
             var background = Panel(parent, "Stepper", Palette.Control);
             background.raycastTarget = true;
+            float height = ControlHeight();
             // flexibleWidth 0: the inner layout group would otherwise report its label's flexible width and stretch the control.
-            Size(background.gameObject, width, Metrics.RowHeight - 10f, flexibleWidth: 0f);
-            HStack(background.gameObject, 2f, new RectOffset(2, 2, 2, 2));
+            Size(background.gameObject, width, height, flexibleWidth: 0f);
+            int inset = Mathf.Max(1, Mathf.RoundToInt(height * 0.08f));
+            HStack(background.gameObject, inset, new RectOffset(inset, inset, inset, inset));
             var selectable = background.gameObject.AddComponent<Selectable>();
             selectable.targetGraphic = background;
             selectable.colors = TintColors();
 
-            previous = Button(background.transform, "Previous", "<", 30f, Metrics.RowHeight - 14f);
+            previous = Button(background.transform, "Previous", "<", Metrics.ArrowWidth, height - inset * 2);
             value = Text(background.transform, "Value", "", Metrics.SmallFontSize, TextAlignmentOptions.Center);
             Size(value.gameObject, flexibleWidth: 1f);
-            next = Button(background.transform, "Next", ">", 30f, Metrics.RowHeight - 14f);
+            next = Button(background.transform, "Next", ">", Metrics.ArrowWidth, height - inset * 2);
             return selectable;
         }
 
@@ -298,13 +357,13 @@ namespace toolbox.Options.UI
         {
             var background = Panel(parent, "Input", Palette.Control);
             background.raycastTarget = true;
-            Size(background.gameObject, width, Metrics.RowHeight - 10f);
+            Size(background.gameObject, width, ControlHeight());
             var input = background.gameObject.AddComponent<TMP_InputField>();
             input.targetGraphic = background;
             input.colors = TintColors();
 
             var area = Rect(background.transform, "Text Area");
-            Stretch(area, 6f);
+            Stretch(area, Mathf.Max(2f, Metrics.Spacing));
             area.gameObject.AddComponent<RectMask2D>();
             var placeholder = Text(area, "Placeholder", "", Metrics.SmallFontSize, TextAlignmentOptions.MidlineLeft, Palette.TextDim);
             Stretch(placeholder.rectTransform);
@@ -323,7 +382,7 @@ namespace toolbox.Options.UI
             var header = Text(parent, "Header", text, Metrics.SmallFontSize, TextAlignmentOptions.BottomLeft, Palette.TextDim);
             header.fontStyle = FontStyles.Bold;
             header.characterSpacing = 4f;
-            Size(header.gameObject, height: 30f);
+            Size(header.gameObject, height: Metrics.HeaderHeight);
             return header.gameObject;
         }
 
@@ -334,7 +393,7 @@ namespace toolbox.Options.UI
             return spacer.gameObject;
         }
 
-        public static Button CreateTabButton(Transform parent, string label) => Button(parent, "Tab " + label, label, 150f);
+        public static Button CreateTabButton(Transform parent, string label) => Button(parent, "Tab " + label, label, Metrics.TabWidth);
 
         // ---- chrome -----------------------------------------------------------------------------------------------
 
@@ -347,20 +406,20 @@ namespace toolbox.Options.UI
 
             var panel = Panel(overlay.transform, "Panel", Palette.Panel);
             panel.raycastTarget = true;
-            panel.rectTransform.sizeDelta = new Vector2(460f, 190f);
-            VStack(panel.gameObject, 10f, new RectOffset(20, 20, 20, 20));
+            panel.rectTransform.sizeDelta = Metrics.PromptSize;
+            VStack(panel.gameObject, Metrics.Spacing * 1.5f, Metrics.MenuPadding);
 
             var message = Text(panel.transform, "Message", "Keep these settings?", Metrics.FontSize, TextAlignmentOptions.Center);
             message.textWrappingMode = TextWrappingModes.Normal;
-            Size(message.gameObject, height: 56f);
+            Size(message.gameObject, height: Metrics.FontSize * 3f);
             var countdown = Text(panel.transform, "Countdown", "", Metrics.SmallFontSize, TextAlignmentOptions.Center, Palette.TextDim);
-            Size(countdown.gameObject, height: 24f);
+            Size(countdown.gameObject, height: Metrics.SmallFontSize * 1.6f);
 
             var buttons = Rect(panel.transform, "Buttons");
             Size(buttons.gameObject, height: Metrics.ButtonHeight);
-            HStack(buttons.gameObject, 12f, null, TextAnchor.MiddleCenter);
-            var keep = Button(buttons, "Keep", "Keep", 150f);
-            var revert = Button(buttons, "Revert", "Revert", 150f);
+            HStack(buttons.gameObject, Metrics.Spacing * 2f, null, TextAnchor.MiddleCenter);
+            var keep = Button(buttons, "Keep", "Keep", Metrics.TabWidth);
+            var revert = Button(buttons, "Revert", "Revert", Metrics.TabWidth);
 
             var prompt = overlay.gameObject.AddComponent<DefaultConfirmPrompt>();
             prompt.Configure(message, countdown, keep, revert);
@@ -380,18 +439,18 @@ namespace toolbox.Options.UI
             VStack(root.gameObject, Metrics.Spacing, Metrics.MenuPadding);
 
             var titleText = Text(root.transform, "Title", title, Metrics.TitleFontSize, TextAlignmentOptions.MidlineLeft);
-            Size(titleText.gameObject, height: 40f);
+            Size(titleText.gameObject, height: Metrics.TitleHeight);
 
             var tabBar = Rect(root.transform, "Tabs");
             Size(tabBar.gameObject, height: Metrics.ButtonHeight);
-            HStack(tabBar.gameObject, 6f);
+            HStack(tabBar.gameObject, Metrics.Spacing);
 
             var scrollRect = Rect(root.transform, "Scroll View");
             Size(scrollRect.gameObject, flexibleHeight: 1f);
             var scroll = scrollRect.gameObject.AddComponent<ScrollRect>();
             scroll.horizontal = false;
             scroll.movementType = ScrollRect.MovementType.Clamped;
-            scroll.scrollSensitivity = 30f;
+            scroll.scrollSensitivity = Metrics.RowHeight * 0.75f;
 
             var viewport = Panel(scrollRect, "Viewport", Palette.Viewport);
             viewport.raycastTarget = true;
@@ -404,29 +463,29 @@ namespace toolbox.Options.UI
             content.pivot = new Vector2(0.5f, 1f);
             content.offsetMin = Vector2.zero;
             content.offsetMax = Vector2.zero;
-            VStack(content.gameObject, 4f, new RectOffset(8, 8, 8, 8));
+            VStack(content.gameObject, Metrics.RowSpacing, Metrics.ContentPadding);
             content.gameObject.AddComponent<ContentSizeFitter>().verticalFit = ContentSizeFitter.FitMode.PreferredSize;
             scroll.viewport = viewport.rectTransform;
             scroll.content = content;
 
             var description = Text(root.transform, "Description", "", Metrics.SmallFontSize, TextAlignmentOptions.TopLeft, Palette.TextDim);
             description.textWrappingMode = TextWrappingModes.Normal;
-            Size(description.gameObject, height: 48f);
+            Size(description.gameObject, height: Metrics.DescriptionHeight);
 
             var footer = Rect(root.transform, "Footer");
             Size(footer.gameObject, height: Metrics.ButtonHeight);
-            HStack(footer.gameObject, 8f);
-            var back = Button(footer, "Back", "Back", 120f);
-            var reset = Button(footer, "Reset", "Reset page", 140f);
+            HStack(footer.gameObject, Metrics.Spacing);
+            var back = Button(footer, "Back", "Back", Metrics.FooterButtonWidth);
+            var reset = Button(footer, "Reset", "Reset page", Metrics.FooterButtonWidth * 1.2f);
             Size(Rect(footer, "Spacer").gameObject, flexibleWidth: 1f);
-            var apply = Button(footer, "Apply", "Apply", 120f);
+            var apply = Button(footer, "Apply", "Apply", Metrics.FooterButtonWidth);
 
             var prompt = CreateConfirmPrompt(root.transform);
 
             // Add the component while inactive: OnEnable would otherwise open the menu before it is configured.
             root.gameObject.SetActive(false);
             var menu = root.gameObject.AddComponent<OptionsMenu>();
-            menu.Configure(tabBar, content, scroll, titleText, description, back, reset, apply, prompt);
+            menu.Configure(tabBar, content, scroll, titleText, description, back, reset, apply, prompt, title);
             root.gameObject.SetActive(true);
             return menu;
         }

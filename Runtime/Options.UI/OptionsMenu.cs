@@ -332,13 +332,21 @@ namespace toolbox.Options.UI
 
         Selectable ActiveTab() => CurrentPage >= 0 && CurrentPage < tabButtons.Count ? tabButtons[CurrentPage] : null;
 
+        /// <summary>The active tab is brighter: a flat button gains alpha, a sprite button keeps its colour while the others dim.</summary>
         void TintTab(Button button, bool active)
         {
             var text = button.GetComponentInChildren<TMP_Text>();
             if (text != null)
-                text.color = active ? DefaultOptionsUI.Palette.Accent : DefaultOptionsUI.Palette.Text;
-            if (button.targetGraphic != null)
-                button.targetGraphic.color = active ? new Color(1f, 1f, 1f, 0.3f) : DefaultOptionsUI.Palette.Button;
+                text.color = active ? DefaultOptionsUI.Palette.Text : DefaultOptionsUI.Palette.TextDim;
+            if (button.targetGraphic == null)
+                return;
+            var baseColor = DefaultOptionsUI.Palette.Button;
+            if (active)
+                button.targetGraphic.color = Color.Lerp(baseColor, Color.white, 0.5f);
+            else if (DefaultOptionsUI.ButtonSprite != null)
+                button.targetGraphic.color = new Color(baseColor.r * 0.6f, baseColor.g * 0.6f, baseColor.b * 0.6f, baseColor.a);
+            else
+                button.targetGraphic.color = baseColor;
         }
 
         void RefreshRows()
@@ -475,8 +483,9 @@ namespace toolbox.Options.UI
         }
 
         internal void Configure(RectTransform tabs, RectTransform rowsContent, ScrollRect scroll, TMP_Text titleLabel, TMP_Text description,
-            Button back, Button reset, Button apply, DefaultConfirmPrompt prompt)
+            Button back, Button reset, Button apply, DefaultConfirmPrompt prompt, string menuTitle)
         {
+            title = menuTitle;
             tabBar = tabs;
             content = rowsContent;
             scrollRect = scroll;
