@@ -62,6 +62,53 @@ Space to jump (stamina cost + cooldown), hold Shift to sprint (speed buff + stam
 exhaustion). The on-screen overlay shows live attributes, tags, active effects and cooldowns.
 The demo needs the Input System package; the ability system itself has no dependencies.
 
+## Options (`toolbox.Options`)
+
+Player-facing settings: a typed model, a versioned JSON file, and ready-made display and quality
+packs. The game declares its options once as static fields and reacts to them with `Bind`. The
+core has no dependencies; a uGUI menu module (`toolbox.Options.UI`) that builds a settings screen
+from the registered options is the next step.
+
+```csharp
+[OptionsCatalog]
+public static class MyOptions
+{
+    public static readonly FloatOption MasterVolume =
+        new FloatOption("audio.master", 1f) { Category = "Audio", Format = OptionFormat.Percent };
+
+    public static readonly BoolOption ScreenShake = new BoolOption("gameplay.screenShake", true);
+
+    public static readonly EnumOption<TextSpeed> TextSpeed = new EnumOption<TextSpeed>("gameplay.textSpeed", TextSpeed.Normal);
+}
+
+// At startup (AfterAssembliesLoaded or later):
+var store = OptionsStore.Default;
+store.RegisterCatalog(typeof(MyOptions));
+store.AddDisplay();      // display.mode / resolution / monitor / vsync / fpsCap, with their applier
+store.AddQuality();      // graphics.quality from the project's quality levels
+store.Load();
+
+// Appliers: called now (or once loaded) and after every change.
+MyOptions.MasterVolume.Bind(v => mixer.SetFloat("Master", ToDecibels(v)));
+```
+
+- **Options:** `BoolOption`, `IntOption`, `FloatOption` (range, step, `Percent` formatting),
+  `ChoiceOption` (keyed choices, replaceable at runtime), `EnumOption<T>` (stored by name),
+  `StringOption` (blobs such as input binding overrides). Metadata: `Label`, `Description`,
+  `Category`, `Order`, `Flags` (`Hidden`, `DevOnly`, `Confirm`, `RequiresRestart`),
+  `Presentation`, `VisibleWhen` / `EnabledWhen` / `AvailableWhen`, `LegacyIds`.
+- **Store:** `OptionsStore` registers options (several catalogues can share one), loads and saves
+  through an `IOptionsStorage` (`options.json` in the persistent data path by default,
+  `PlayerPrefs`, or in-memory), keeps unknown keys, reads legacy ids, runs `AddMigration` steps
+  up to `SchemaVersion`, and saves unsaved changes on quit.
+- **Transactions:** `OptionsTransaction` stages `Confirm` options (display mode, resolution),
+  applies them together, then `Commit`s or `Revert`s; appliers undo through the same `Bind`.
+- **Compatibility promises:** ids are contracts, values are self-describing text (choice keys,
+  enum names, never indices), missing keys keep defaults, unknown choices fall back to the
+  default, unknown keys survive, renames go through `LegacyIds`, shape changes through migrations.
+
+The edit-mode tests in `Tests/Options` double as the usage reference.
+
 ## Other modules (`toolbox.Runtime`)
 
 - **ServiceLocator** — hierarchical service container (component parents → scene → global) with bootstrappers.

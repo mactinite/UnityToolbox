@@ -1,6 +1,6 @@
 {
   "name": "toolbox",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "displayName": "Toolbox",
   "description": "A collection of utilities and reusable code. Used in my toolbox of Unity packages.",
   "unity": "6000.1",
