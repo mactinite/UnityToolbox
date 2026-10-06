@@ -1,0 +1,19 @@
+{
+    "name": "toolbox.Samples.OptionsDemo",
+    "rootNamespace": "toolbox.Samples.OptionsDemo",
+    "references": [
+        "toolbox.Runtime",
+        "toolbox.Options.UI",
+        "UnityEngine.UI",
+        "Unity.TextMeshPro"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

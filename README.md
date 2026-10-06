@@ -64,10 +64,11 @@ The demo needs the Input System package; the ability system itself has no depend
 
 ## Options (`toolbox.Options`)
 
-Player-facing settings: a typed model, a versioned JSON file, and ready-made display and quality
-packs. The game declares its options once as static fields and reacts to them with `Bind`. The
-core has no dependencies; a uGUI menu module (`toolbox.Options.UI`) that builds a settings screen
-from the registered options is the next step.
+Player-facing settings: a typed model, a versioned JSON file, ready-made display and quality
+packs, and a skinnable uGUI menu. The game declares its options once as static fields, reacts to
+them with `Bind`, and decides the arrangement and the look; the module owns persistence, the menu
+building, gamepad navigation and the confirm/revert flow for display changes. The core has no
+dependencies; the menu lives in its own assembly, `toolbox.Options.UI` (uGUI + TextMeshPro).
 
 ```csharp
 [OptionsCatalog]
@@ -107,7 +108,24 @@ MyOptions.MasterVolume.Bind(v => mixer.SetFloat("Master", ToDecibels(v)));
   enum names, never indices), missing keys keep defaults, unknown choices fall back to the
   default, unknown keys survive, renames go through `LegacyIds`, shape changes through migrations.
 
-The edit-mode tests in `Tests/Options` double as the usage reference.
+**Menu (`toolbox.Options.UI`).** `OptionsMenu.CreateDefault(canvas)` gives a complete, navigable
+settings screen built from plain uGUI: tabs per page, scrolling rows, a description for the
+selected row, Back / Reset page / Apply, and a confirm prompt with a countdown for staged
+display changes. Everything in it is replaceable:
+
+| To change | Use |
+|---|---|
+| Pages, sections, order, headers, spacers, extra buttons | an `OptionsLayout` built in code (`layout.Page("audio", "Audio").Section("Mix").Options(...)`) or an `OptionsLayoutAsset` edited in the inspector (ids come from a dropdown, with validation) |
+| The look of every row of a kind | an `OptionsTheme` asset with your prefabs; row scripts (`ToggleRow`, `SliderRow`, `StepperRow`, `DropdownRow`, `TextRow`) wire their widgets through serialized fields |
+| One option's row | the theme's per-id override, a `OptionPresentation.Custom` key, or the entry's own prefab in the layout |
+| A new widget | subclass `OptionRow` (see the sample's `BlockMeterRow`) |
+| Sounds, localisation, your own dialog | `IOptionsMenuFeedback`, `IOptionTextProvider`, `IConfirmPrompt` |
+| Your own screen | drive `OptionsMenuBuilder` from it; `OptionsMenu` is optional |
+
+**Demo:** open `Samples/OptionsDemo/OptionsDemo.unity` and press Play. It registers a catalogue plus
+the display and quality packs, binds appliers (logged bottom-left), lays out four pages in code,
+overrides two rows through a runtime theme, and works with keyboard, mouse and gamepad. The
+edit-mode tests in `Tests/Options` double as the API reference.
 
 ## Other modules (`toolbox.Runtime`)
 

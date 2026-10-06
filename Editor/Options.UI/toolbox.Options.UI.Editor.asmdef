@@ -1,0 +1,20 @@
+{
+    "name": "toolbox.Options.UI.Editor",
+    "rootNamespace": "toolbox.Options.UI.Editor",
+    "references": [
+        "toolbox.Runtime",
+        "toolbox.Options.UI",
+        "toolbox.Editor"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

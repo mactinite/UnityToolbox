@@ -10,5 +10,16 @@ namespace toolbox.Options
         /// <summary>The project's quality levels. See <see cref="QualityOptionsPack"/>.</summary>
         public static QualityOptionsPack AddQuality(this OptionsStore store, string category = "Graphics") =>
             new QualityOptionsPack(store, category);
+
+        /// <summary>The ids the packs register, for editor tooling that lists ids before the packs exist at runtime.</summary>
+        public static readonly string[] PackIds =
+        {
+            DisplayOptionsPack.ModeId,
+            DisplayOptionsPack.ResolutionId,
+            DisplayOptionsPack.MonitorId,
+            DisplayOptionsPack.VSyncId,
+            DisplayOptionsPack.FpsCapId,
+            QualityOptionsPack.QualityId,
+        };
     }
 }

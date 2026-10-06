@@ -42,7 +42,8 @@ namespace toolbox.Options
 
         protected override bool AreEqual(float a, float b) => Math.Abs(a - b) < Tolerance;
 
-        protected override string ToText(float value) => value.ToString("R", CultureInfo.InvariantCulture);
+        // Seven decimals cover float precision without the round-trip noise of "R" (0.9f would otherwise save as 0.900000036).
+        protected override string ToText(float value) => value.ToString("0.#######", CultureInfo.InvariantCulture);
 
         protected override bool TryParseText(string text, out float value) =>
             float.TryParse(text?.Trim(), NumberStyles.Float, CultureInfo.InvariantCulture, out value)

@@ -99,4 +99,10 @@ namespace toolbox.Options
     public sealed class OptionsCatalogAttribute : Attribute
     {
     }
+
+    /// <summary>On a string field: the inspector offers the ids of every <see cref="OptionsCatalogAttribute"/> class, with free text as a fallback.</summary>
+    [AttributeUsage(AttributeTargets.Field)]
+    public sealed class OptionIdAttribute : UnityEngine.PropertyAttribute
+    {
+    }
 }

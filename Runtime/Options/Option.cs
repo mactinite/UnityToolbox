@@ -87,6 +87,9 @@ namespace toolbox.Options
         /// <summary>Parses the persisted text form and sets the value. False when the text is not valid for this option.</summary>
         public abstract bool TrySetFromString(string text);
 
+        /// <summary>Parses the text form without setting anything. For text fields that must validate before writing.</summary>
+        public abstract bool TryParseValue(string text, out object value);
+
         /// <summary>The value as a menu shows it.</summary>
         public abstract string DisplayValue { get; }
 
@@ -210,6 +213,13 @@ namespace toolbox.Options
                 return false;
             Value = parsed;
             return true;
+        }
+
+        public override bool TryParseValue(string text, out object value)
+        {
+            bool parsed = TryParseText(text, out var typed);
+            value = parsed ? typed : null;
+            return parsed;
         }
 
         protected abstract string ToText(T value);
