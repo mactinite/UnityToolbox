@@ -1,0 +1,28 @@
+{
+    "name": "toolbox.Options.Input",
+    "rootNamespace": "toolbox.Options.Input",
+    "references": [
+        "toolbox.Runtime",
+        "toolbox.Options.UI",
+        "Unity.InputSystem",
+        "UnityEngine.UI",
+        "Unity.TextMeshPro"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [
+        "TOOLBOX_INPUTSYSTEM"
+    ],
+    "versionDefines": [
+        {
+            "name": "com.unity.inputsystem",
+            "expression": "1.0",
+            "define": "TOOLBOX_INPUTSYSTEM"
+        }
+    ],
+    "noEngineReferences": false
+}

@@ -108,7 +108,8 @@ namespace toolbox.Options.UI
         {
         }
 
-        public void ResetToDefault()
+        /// <summary>The reset button. Rows that cover one part of an option (a key binding) override this to reset only their part.</summary>
+        public virtual void ResetToDefault()
         {
             if (Option == null)
                 return;

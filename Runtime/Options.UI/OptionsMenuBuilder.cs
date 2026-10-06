@@ -83,15 +83,22 @@ namespace toolbox.Options.UI
                 return null;
             }
 
-            if (!option.IsAvailable || option.HasFlag(OptionFlags.Hidden))
+            // A hidden option never gets a row of its own; a tagged entry is an explicit placement (one row per key binding).
+            if (!option.IsAvailable || (option.HasFlag(OptionFlags.Hidden) && entry.Tag == null))
                 return null;
             if (option.HasFlag(OptionFlags.DevOnly) && !Context.ShowDevOnly())
                 return null;
 
             var prefab = ResolveRowPrefab(option, entry, out var kind);
-            var instance = prefab != null
-                ? UnityEngine.Object.Instantiate(prefab, content)
-                : DefaultOptionsUI.CreateRow(kind, content);
+            GameObject instance;
+            if (prefab != null)
+                instance = UnityEngine.Object.Instantiate(prefab, content);
+            else if (entry.RowFactory != null)
+                instance = entry.RowFactory(content);
+            else
+                instance = DefaultOptionsUI.CreateRow(kind, content);
+            if (instance == null)
+                return null;
             instance.name = option.Id;
 
             var row = instance.GetComponent<OptionRow>();
@@ -146,6 +153,7 @@ namespace toolbox.Options.UI
                 case OptionPresentation.Stepper: return RowKind.Stepper;
                 case OptionPresentation.Dropdown: return RowKind.Dropdown;
                 case OptionPresentation.Text: return RowKind.Text;
+                case OptionPresentation.Keybind: return RowKind.Keybind;
             }
 
             if (option is BoolOption)

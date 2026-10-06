@@ -47,9 +47,16 @@ namespace toolbox.Options.UI
 
         public bool ShowsDefault(Option option) => Equals(GetValue(option), option.BoxedDefault);
 
-        /// <summary>Hidden, dev-only and unavailable options stay out; <see cref="Option.VisibleWhen"/> is re-evaluated as values change.</summary>
+        /// <summary>
+        /// Whether a built row should be active: unavailable and dev-only options stay out, and
+        /// <see cref="Option.VisibleWhen"/> is re-evaluated as values change. The Hidden flag is not consulted here:
+        /// it decides whether an option gets a row of its own at all (see the builder), and explicitly placed rows
+        /// such as key bindings share a hidden option.
+        /// </summary>
         public bool ShouldShow(Option option) =>
-            option.IsVisible && (!option.HasFlag(OptionFlags.DevOnly) || ShowDevOnly());
+            option.IsAvailable
+            && (option.VisibleWhen == null || option.VisibleWhen())
+            && (!option.HasFlag(OptionFlags.DevOnly) || ShowDevOnly());
 
         /// <summary>Writes a value from a row: staged options go to the transaction, others straight to the option.</summary>
         public void SetValue(OptionRow row, object value, bool commit)

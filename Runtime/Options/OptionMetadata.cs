@@ -33,6 +33,8 @@ namespace toolbox.Options
         Stepper,
         Dropdown,
         Text,
+        /// <summary>A key/button binding; rows come from the input module (one per binding, all over one option).</summary>
+        Keybind,
         Custom,
     }
 

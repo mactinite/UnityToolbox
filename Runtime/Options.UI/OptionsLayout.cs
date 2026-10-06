@@ -41,9 +41,9 @@ namespace toolbox.Options.UI
         public IEnumerable<string> UnknownIds(OptionsStore store) =>
             OptionEntries.Select(entry => entry.OptionId).Where(id => !store.Contains(id)).Distinct();
 
-        /// <summary>Ids placed more than once.</summary>
+        /// <summary>Ids placed more than once (tagged entries, which legitimately share an id, are not counted).</summary>
         public IEnumerable<string> DuplicateIds() =>
-            OptionEntries.GroupBy(entry => entry.OptionId).Where(group => group.Count() > 1).Select(group => group.Key);
+            OptionEntries.Where(entry => entry.Tag == null).GroupBy(entry => entry.OptionId).Where(group => group.Count() > 1).Select(group => group.Key);
 
         /// <summary>Registered, visible options the layout does not place anywhere.</summary>
         public IEnumerable<Option> Unplaced(OptionsStore store)
@@ -153,6 +153,10 @@ namespace toolbox.Options.UI
         public OptionPresentation? Presentation { get; set; }
         /// <summary>A row prefab for this placement only. Must carry an <see cref="OptionRow"/>.</summary>
         public GameObject RowPrefab { get; set; }
+        /// <summary>Builds the row when no prefab applies: wins over the theme. Must return an object carrying an <see cref="OptionRow"/>.</summary>
+        public Func<Transform, GameObject> RowFactory { get; set; }
+        /// <summary>Any payload for the row. Several entries with tags may share one option id (the input module places one row per binding).</summary>
+        public object Tag { get; set; }
     }
 
     public sealed class HeaderEntry : OptionsEntry

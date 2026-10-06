@@ -122,6 +122,15 @@ display changes. Everything in it is replaceable:
 | Sounds, localisation, your own dialog | `IOptionsMenuFeedback`, `IOptionTextProvider`, `IConfirmPrompt` |
 | Your own screen | drive `OptionsMenuBuilder` from it; `OptionsMenu` is optional |
 
+**Key rebinding (`toolbox.Options.Input`, compiled when the Input System package is present).**
+`store.AddControls(inputActionAsset, new ControlsConfig { Maps = ..., ExcludedActions = ... })` registers one
+hidden `BindingOverridesOption` holding the Input System's override JSON and keeps a private rebinding copy of
+the asset. `pack.AddToPage(layout.Page("controls", "Controls"))` places a `KeybindRow` per binding (composite
+parts one by one) under a section per control scheme; Submit or a click listens for a key (`RebindFlow`:
+cancel on Escape, mouse motion excluded, only the scheme's devices accepted, duplicates swapped, blocked or
+allowed), Reset clears that binding. Live copies follow through `pack.Track(playerInput.actions)` or the
+`ApplyBindingOverrides` component next to a `PlayerInput`.
+
 **Demo:** open `Samples/OptionsDemo/OptionsDemo.unity` and press Play. It registers a catalogue plus
 the display and quality packs, binds appliers (logged bottom-left), lays out four pages in code,
 overrides two rows through a runtime theme, and works with keyboard, mouse and gamepad. The

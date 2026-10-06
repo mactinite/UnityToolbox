@@ -147,7 +147,11 @@ namespace toolbox.Options.UI
             button.colors = TintColors();
             Size(image.gameObject, width, height > 0f ? height : Metrics.ButtonHeight);
             var text = Text(image.transform, "Label", label, Metrics.SmallFontSize, TextAlignmentOptions.Center);
-            Stretch(text.rectTransform, 2f);
+            // Inset the label horizontally only: a vertical inset starves the text on short buttons and ellipsis blanks it.
+            Stretch(text.rectTransform);
+            text.rectTransform.offsetMin = new Vector2(2f, 0f);
+            text.rectTransform.offsetMax = new Vector2(-2f, 0f);
+            text.overflowMode = TextOverflowModes.Overflow;
             return button;
         }
 
